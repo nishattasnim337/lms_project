@@ -14,6 +14,7 @@ include "link.php";
 body {
   font-family: "Lato", sans-serif;
 
+
 }
 
 .sidenav {
@@ -73,7 +74,7 @@ if(isset($_SESSION['login_user'])){?>
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   <a href="profile.php">My Profile</a>
   <a href="books.php">Books</a>
-  <a href="add_book.php">Book Request</a>
+  <a href="book_request.php">Book Request</a>
   <a href="#">Issue Information</a>
   </div>
 
@@ -125,7 +126,7 @@ else{?>
     <div class="deletebook form-inline ml-auto">
       <form class="ml-auto py-3 h-20 " action="" method="post">
         <div class="input-group">
-          <input type="text" name="bid" placeholder="Search Book Id" class="form-control" value="">
+          <input type="text" name="b_id" placeholder="Search Book Id" class="form-control" value="">
           <div class="input-group-append">
             <button type="submit" name="submit1" class="input-group-text btn btn-primary">Request
             </button>
@@ -222,15 +223,16 @@ else{?>
     		}echo "</table>";
 
     }
-/*
+
     if(isset($_POST['submit1'])){
       if(isset($_SESSION['login_user']))
       {
-        $sql="DELETE from books where b_id='$_POST[bid]'";
+        $sql="INSERT into issue_book values('$_SESSION[login_user]','$_POST[b_id]','','','')";
         mysqli_query($dblink,$sql);
         ?>
         <script type="text/javascript">
-          alert("Successfully Delete This Book");
+          alert("Request sent successfully");
+          window.location="book_request.php";
         </script>
         <?php
       }
@@ -238,9 +240,9 @@ else{?>
 
     else{?>
       <script type="text/javascript">
-        alert("Please Ensure your Login");
+        alert("Please Ensure your Login then send request for book");
       </script>
-  <?php  }}*/
+  <?php  }}
 
     	if(isset($_POST['request']))
     	{
