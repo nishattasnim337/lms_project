@@ -72,16 +72,6 @@ include "link.php";
                 </li>
 
                 <li class="list-group-item inline-block input-group ">
-                  <span> <i class="fa fa-calendar mr-5 d-inline-block " style=""><?php echo "&nbsp Session  ";?></i></span>
-                  <span class="d-inline-block "><h5 class="display-5 ml-5"><?php echo $row["session_year"];?></h5></span>
-                </li>
-
-                <li class="list-group-item inline-block input-group ">
-                  <span> <i class="fa fa-address-card mr-5 d-inline-block " style=""><?php echo "&nbsp Roll No  ";?></i></span>
-                  <span class="d-inline-block "><h5 class="display-5 ml-5"><?php echo $row["roll"];?></h5></span>
-                </li>
-
-                <li class="list-group-item inline-block input-group ">
                   <span> <i class="fa fa-user mr-5 d-inline-block " style=""><?php echo "&nbsp Username ";?></i></span>
                   <span class="d-inline-block "><h5 class="display-5 ml-4"><?php echo $row["username"];?></h5></span>
                 </li>
