@@ -152,7 +152,8 @@ else{?>
     		echo "Sorry..! No Books found";
     	}
     	else{
-    	echo "<table class='table table-bordered table-hover'>";
+
+    	  echo "<table class='table table-bordered table-hover table-sm' id='dtHorizontalVerticalExample'>";
     		echo "<tr style='background-color:gray;'>";
     		echo "<th>"; echo "ID"; echo "</th>";
     		echo "<th>"; echo "Book-Name"; echo "</th>";
@@ -227,6 +228,12 @@ else{?>
     if(isset($_POST['submit1'])){
       if(isset($_SESSION['login_user']))
       {
+        $sql1="SELECT * FROM `books` WHERE b_id=$_POST[b_id]";
+        $query=mysqli_query($dblink,$sql1);
+        $row=mysqli_fetch_assoc($query);
+        $count=mysqli_num_rows($query);
+        if($count!=0)
+        {
         $sql="INSERT into issue_book values('$_SESSION[login_user]','$_POST[b_id]','','','')";
         mysqli_query($dblink,$sql);
         ?>
@@ -234,7 +241,17 @@ else{?>
           alert("Request sent successfully");
           window.location="book_request.php";
         </script>
+
         <?php
+      }
+        else{?>
+          <script type="text/javascript">
+            alert("Books not available in library");
+            </script>
+
+
+        <?php
+      }
       }
 
 
@@ -256,7 +273,7 @@ else{?>
     			$sql="insert into issue_book values( '$username','$b_id','','','');";
 
     		$run=mysqli_query($dblink, $sql);}
-    		else{
+    	else{
     			?>
 
     			<script type=text/javascript>

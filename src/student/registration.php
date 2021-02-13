@@ -66,8 +66,9 @@ include "navbar.php";
         					<input  class="form-control" type="text" name="l_name" placeholder="Last Name" required=""/><br>
         					<select  class="form-control" style="text-align:center;" name="dept_name">
         					<option value="session">Department Name</option>
-        					<option value="CSTE">CSTE</option>
-        					<option value="IIT">IIT</option>
+                  <option value="IIT">IIT</option>
+        					<!--<option value="CSTE">CSTE</option>
+
         					<option value="ACCE">ACCE</option>
         					<option value="EEE">EEE</option>
         					<option value="ICE">ICE</option>
@@ -76,14 +77,11 @@ include "navbar.php";
         					<option value="Microbiology">Microbiology</option>
         					<option value="BGE">BGE</option>
         					<option value="English">English</option>
-        					<option value="LAW">LAW</option>
+        					<option value="LAW">LAW</option>-->
 
         					</select><br>
         					<select  class="form-control" style="text-align:center;"name="year">
         					<option value="session">Select session</option>
-        					<option value="2014-15">2014-15</option>
-        					<option value="2015-16">2015-16</option>
-        					<option value="2016-17">2016-17</option>
         					<option value="2017-18">2017-18</option>
         					<option value="2018-19">2018-19</option>
         					<option value="2019-20">2019-20</option>
@@ -156,19 +154,23 @@ $roll=$_POST["roll"];
 $username=$_POST["username"];
 $email=$_POST["email"];
 $pass=$_POST["password"];
-//$contract=$_POST["contract"];
+$pass2=$_POST["password2"];
 
 
-$insert_query="insert into student(f_name,l_name,department,session_year,roll,username,email,password,pic) values
-	('$f_name','$l_name','$dept','$year','$roll','$username','$email','$pass','pic.jpg')";
-$run_query=mysqli_query($dblink,$insert_query);
-?>
-<script type="text/javascript">
-alert("Registration successful");
-</script>
+
+              $insert_query="insert into student(f_name,l_name,department,session_year,roll,username,email,password,pic) values
+              	('$f_name','$l_name','$dept','$year','$roll','$username','$email','$pass','pic.jpg')";
+              $run_query=mysqli_query($dblink,$insert_query);
+              ?>
+              <script type="text/javascript">
+              alert("Registration successful");
+              </script>
+
 
 <?php
+
 }
+
 
 else {
 	?>

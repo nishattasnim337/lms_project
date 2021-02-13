@@ -74,6 +74,8 @@ if(isset($_SESSION['login_user'])){?>
   <a href="profile.php">My Profile</a>
   <a href="books.php">Books</a>
   <a href="add_book.php">Add Book</a>
+  <a href="update_book.php">Update Book</a>
+  <a href="book_request.php">Book Request Info</a>
   <a href="#">Issue Information</a>
   </div>
 
@@ -109,14 +111,15 @@ else{?>
     <div class="container " style="  min-height: 800px;">
     <div class="searchbook form-inline ml-auto">
       <form class="ml-auto py-3 " action="" method="post">
-        <div class="input-group">
+        <div class="input-group ">
           <input type="text" name="search" placeholder="Search books" class="form-control" value="">
           <div class="input-group-append">
             <button type="submit" name="submit" class="input-group-text"><span class="fa fa-search"></span>
             </button>
           </div>
-
+  <!--.......................................Update books.........................-->
         </div>
+        <br><button type="submit"class="btn btn-primary btn-block mt-0 input-group-text " name="update_btn">Update Book</button>
       </form>
     </div>
 
@@ -125,7 +128,7 @@ else{?>
     <div class="deletebook form-inline ml-auto">
       <form class="ml-auto py-3 h-20 " action="" method="post">
         <div class="input-group">
-          <input type="text" name="bid" placeholder="Search Book Id" class="form-control" value="">
+          <input type="text" name="b_id" placeholder="Search Book Id" class="form-control" value="">
           <div class="input-group-append">
             <button type="submit" name="submit1" class="input-group-text btn btn-primary">Delete
             </button>
@@ -143,12 +146,14 @@ else{?>
 
     if(isset($_POST['submit']))
     {
-    	$sql="select * from books where b_name like '%$_POST[search]%';";
+    	$sql="select * from books where b_name like '%$_POST[search]%' || b_id='$_POST[search]';";
     	$query=mysqli_query($dblink,$sql);
     	if(mysqli_num_rows($query)==0)
     	{
 
     		echo "Sorry..! No Books found";
+
+
     	}
     	else{
     	echo "<table class='table table-bordered table-hover'>";
@@ -226,21 +231,39 @@ else{?>
     if(isset($_POST['submit1'])){
       if(isset($_SESSION['login_user']))
       {
-        $sql="DELETE from books where b_id='$_POST[bid]'";
-        mysqli_query($dblink,$sql);
+        $sql1="SELECT * FROM `books` WHERE b_id='$_POST[b_id]';";
+        $query=mysqli_query($dblink,$sql1);
+        $row=mysqli_fetch_assoc($query);
+        $count=mysqli_num_rows($query);
+        if($count!=0)
+        {
+          $sql="DELETE from books where b_id='$_POST[bid]'";
+          mysqli_query($dblink,$sql);
         ?>
         <script type="text/javascript">
           alert("Successfully Delete This Book");
         </script>
+
+        <?php
+      }
+        else{?>
+          <script type="text/javascript">
+            alert("Books not available in library");
+            </script>
+
+
         <?php
       }
 
 
+    }}
+
+
     else{?>
-      <script type="text/javascript">
-        alert("Please Ensure your Login");
-      </script>
-  <?php  }}
+    <!--  <script type="text/javascript">
+        alert("Please  Login first ");
+      </script>-->
+  <?php  }
 
     	if(isset($_POST['request']))
     	{
@@ -259,10 +282,7 @@ else{?>
 
     			<script type=text/javascript>
     			alert ("Please login first");
-    			</script>
-
-
-
+        </script>
 
     			<?php
     		}

@@ -37,14 +37,17 @@ if(isset($_SESSION['login_user'])){
            <li class="nav-item">
              <a href="student_info.php" class="nav-link">student_info</a>
            </li>
-           <li class="nav-item">
-             <a href="logout.php" class="nav-link">Logout</a>
-           </li>
+           <li class="nav-item dropdown ">
+             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><span class="fa fa-user">
+               <?php
+               echo $_SESSION['login_user'];
 
-           <li class="nav-item">
-             <a href="feedback.php" class="nav-link">Feedback</a>
-           </li>
-
+              ?></spna></a>
+              <div class="dropdown-menu text-light" style="background:#000">
+                <a class="dropdown-item nav-link text-light " href="profile.php" ><span> My Account</span></a>
+                <a href="logout.php" class="dropdown-item nav-link  text-light "><span class="fa fa-sign-out"> logout</span></a>
+              </div>
+            </li>
          </ul>
        </div>
 
@@ -68,9 +71,7 @@ if(isset($_SESSION['login_user'])){
          <li class="nav-item">
            <a href="registration.php" class="nav-link">Registration</a>
          </li>
-         <li class="nav-item">
-           <a href="feedback.php" class="nav-link">Feedback</a>
-         </li>
+
 
        </ul>
      </div>

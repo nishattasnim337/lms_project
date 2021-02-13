@@ -10,7 +10,23 @@
   }
             }
       }
+      #profile{
+        background: url('../img/index.jpeg');
+        position: relative;
 
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center;
+        min-height: 800px;
+      .darkoverlay{
+        background: rgba(0,0,0,0.5);
+        position: absolute;
+        top:0;
+        left:0;
+        height:100%;
+        width:100%;
+      }}
 
 //.............................Index page...........................................
 
@@ -95,7 +111,7 @@
   margin:90px auto;
 }
 }
-
+//...................................................profile page.....................
 
 @media(max-width:767px)
 {

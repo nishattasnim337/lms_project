@@ -88,7 +88,7 @@ include "link.php";
               ?>
               <script type="text/javascript">
               alert("Successfully Login");
-              window.location="index.php";
+              window.location="books.php";
               </script>
               <?php
 

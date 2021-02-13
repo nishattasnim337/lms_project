@@ -38,9 +38,9 @@ if(isset($_SESSION['login_user'])){
              <a href="logout.php" class="nav-link">Logout</a>
            </li>
 
-           <li class="nav-item">
+          <!-- <li class="nav-item">
              <a href="feedback.php" class="nav-link">Feedback</a>
-           </li>
+           </li>-->
 
          </ul>
        </div>
@@ -65,10 +65,10 @@ if(isset($_SESSION['login_user'])){
          <li class="nav-item">
            <a href="registration.php" class="nav-link">Registration</a>
          </li>
-         <li class="nav-item">
+         <!--<li class="nav-item">
            <a href="feedback.php" class="nav-link">Feedback</a>
          </li>
-
+       -->
        </ul>
      </div>
      <?php
