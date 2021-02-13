@@ -102,11 +102,6 @@ include "link.php";
   </section>
 
 
-
-
-
-
-
 <footer class="bg-dark text-light text-center">
   <div class="container">
     <div class="row">

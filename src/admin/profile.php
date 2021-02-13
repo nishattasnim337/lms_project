@@ -107,9 +107,7 @@ include "link.php";
         </div>
 
       </div>
-
-
-     </section>
+</section>
 
      <footer class="bg-dark text-light text-center">
        <div class="container">
