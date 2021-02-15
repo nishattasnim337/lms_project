@@ -78,7 +78,7 @@ include "link.php";
               $res=mysqli_fetch_assoc($result);
               //$_SESSION['login_user']=$result;
 
-             $_SESSION['login_user']= $res['username'];
+             $_SESSION['admin_login_user']= $res['username'];
              $_SESSION['pic']=$res['pic'];
 
               ?>

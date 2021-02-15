@@ -52,7 +52,7 @@ include "link.php";
             margin-top: -160px;'
              src='../img/avater.png' alt='Nmae1' class='img-fluid  lg-w-25 sm-w-20  rounded-circle '>"?>
             <?php
-            $sql="select * from admin where username='$_SESSION[login_user]';";
+            $sql="select * from admin where username='$_SESSION[admin_login_user]';";
             $result=mysqli_query($dblink,$sql);
 
             $row=mysqli_fetch_assoc($result);
@@ -63,7 +63,7 @@ include "link.php";
               <span> <button type="submit" name="pass_btn" class="btn btn-inline-block"><i class="fa fa-key  ml-2 d-inline-block" style="font-size:20px;"></i></button></span>
               </form>
             </div>
-            <h3 class="text-dark display-5 pl-4"><?php  echo $_SESSION['login_user'];?></h3>
+            <h3 class="text-dark display-5 pl-4"><?php  echo $_SESSION['admin_login_user'];?></h3>
 
             <ul class="list-group">
                 <li class="list-group-item inline-block input-group ">

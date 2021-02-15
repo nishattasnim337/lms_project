@@ -129,9 +129,9 @@ while($row=mysqli_fetch_assoc($result))
     	while($row=mysqli_fetch_assoc($result))
     	{
 
-    		if(($row['username']!=$_POST['username'])AND($row['email']!=$_POST['email'])AND($_POST['password']==$_POST['password2']))
+    		if(($row['username']===$_POST['username'])&&($row['email']===$_POST['email'])&&($_POST['password']===$_POST['password2']))
     		{
-          $sql="UPDATE student SET f_name='$f_name',l_name='$l_name',username='$username',email='$email',password='$password',contract='$contract' WHERE usename='".$_SESSION['login_user']."';";
+          $sql="UPDATE student SET f_name='$f_name',l_name='$l_name',username='$username',email='$email',password='$password',contract='$contract' WHERE username='".$_SESSION['login_user']."';";
           if(mysqli_query($dblink,$sql))
           {
             ?>

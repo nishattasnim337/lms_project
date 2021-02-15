@@ -75,7 +75,7 @@ include "link.php";
 if(isset($_POST['submit']))
 
 	{
-		if(isset($_SESSION['login_user']))
+		if(isset($_SESSION['admin_login_user']))
 
 			{
 				$id=$_POST["b_id"];

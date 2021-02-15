@@ -31,7 +31,7 @@
 
           </ul>
           <?php
-          if(isset($_SESSION['login_user']))
+          if(isset($_SESSION['admin_login_user']))
           {?>
             <ul class=" nav navbar-nav ml-auto">
 
@@ -42,7 +42,7 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><span class="fa fa-user">
                   <?php
                   //echo "<img class='img-circle profile_img' src='img/ ".$_SESSION['pic']."'>";
-                  echo $_SESSION['login_user'];
+                  echo $_SESSION['admin_login_user'];
 
                  ?></spna></a>
                  <div class="dropdown-menu text-light" style="background:#000">

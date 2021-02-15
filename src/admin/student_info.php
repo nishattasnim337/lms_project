@@ -117,11 +117,11 @@ include "link.php";
 
     	if(isset($_POST['request']))
     	{
-    		if(isset($_SESSION['login_user']))
+    		if(isset($_SESSION['admin_login_user']))
     		{
     			$b_id=$_POST["b_id"];
 
-    			$username=$_SESSION['login_user'];
+    			$username=$_SESSION['admin_login_user'];
 
 
     			$sql="insert into issue_book values( '$username','$b_id','','','');";

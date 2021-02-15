@@ -112,7 +112,7 @@ width:100%;
 
        <?php
 
-       if(isset($_SESSION['login_user']))
+       if(isset($_SESSION['admin_login_user']))
        {
          $sql="SELECT student.username,roll,books.b_id,b_name,authors,edition,status from student inner join issue_book ON student.username=issue_book.username inner join books ON issue_book.b_id=books.b_id where issue_book.approve='';";
 
@@ -120,7 +120,7 @@ width:100%;
          if(mysqli_num_rows($query)==0)
          {
            echo "<h2 class='display-5 py-5'>";
-           echo "Sorry...! There is no pending book request";
+           echo "There is no pending book request";
            echo "</h2>";
          }
          else{
@@ -143,17 +143,24 @@ width:100%;
 
            while($row=mysqli_fetch_assoc($query))
            {
-
-             echo "<form action='' method=POST>";
              echo "<tr>";
-             echo "<td>";echo $row['username']; echo "</td>";
+             $_hiddenuser= $row['username'];
+             echo "<form action='approve.php' method='GET'>";
+             ?>
+               <td> <input type="hidden" name="hiddenuser" value="<?php echo $row['username'];?>"/> <?php echo $row['username']; ?></td>
+          <?php   //echo "<td>";echo"<input type='hidden' name='hiddenuser' value="; echo $_hiddenuser; echo ">";echo $row['username']; echo "</input>"; echo "</td>";
+
+             //echo "<td>";echo $row['username']; echo "</td>";
              echo "<td>";echo $row['roll']; echo "</td>";
-             echo "<td>";echo $row['b_id']; echo "</td>";
+             ?>
+               <td> <input type="hidden" name="hidden_b_id" value="<?php echo $row['b_id'];?>"/> <?php echo $row['b_id']; ?></td>
+          <?php
+             //echo "<td>";echo $row['b_id']; echo "</td>";
              echo "<td>";echo $row['b_name']; echo "</td>";
              echo "<td>";echo $row['authors']; echo "</td>";
              echo "<td>";echo $row['edition']; echo "</td>";
              echo "<td>";echo $row['status']; echo "</td>";
-             echo "<td>";echo "<form action='' method='post'><a href='approve.php' class='btn btn-primary d-block ' name='approve-button'>Approve</a></form>"; echo "</td>";
+             echo "<td>";echo "<button type='submit' class='btn btn-primary d-block '>Approve</button>"; echo "</td>";
 
              echo "</tr>";
              echo "</form>";
@@ -187,18 +194,3 @@ else{
       </div>
    </body>
  </html>
-
-
-<!--..........................................When approve button clicked.................................-->
-<?php
-if(onclick($_POST['approve-button']))
-{
-
-
-  header('location:approve.php');
-}
-
-
-
-
- ?>

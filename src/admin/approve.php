@@ -104,8 +104,8 @@ width:100%;
 
                  <select  class="form-control" style="text-align:center;"name="approve" required="">
                  <option value="session">Approve Status</option>
-                 <option value="2017-18">Yes</option>
-                 <option value="2018-19">NO</option>
+                 <option value="Yes">Yes</option>
+                 <option value="No">NO</option>
                  </select><br>
                  <input type="date" name="issue" class="form-control" required=""><br>
                  <input type="date" name="returnbook" class="form-control" required=""><br>
@@ -124,6 +124,13 @@ width:100%;
 
 </div>
 </div>
+<?php
+$_name=$_GET['hiddenuser'];
+echo $_name;
+echo "<br>";
+$_bid=$_GET['hidden_b_id'];
+echo $_bid;
+ ?>
 
 <footer class="bg-dark text-light text-center">
   <div class="container">
@@ -146,16 +153,18 @@ if(isset($_POST['confirm_book']))
   $issue=strtotime($issue_date);
   $difference=$return - $issue;
    $days=floor($difference/(60*60*24));
-//...........................................problem start..................................
-  if($days==5)
+//............................problem Solved and Book issue successfully.................................
+  if($days<=5)
   {
-    $sql="UPDATE issue_book SET approve='$approve',issue='$issue_date',returnbook='$return_date' WHERE username=$_POST[username],b_id=$_POST['b_id'];";
+    $sql="UPDATE issue_book SET approve='$approve',issue='$issue_date',returnbook='$return_date' WHERE username='$_name' AND b_id='$_bid';";
     $run=mysqli_query($dblink, $sql);
     ?>
     <script type="text/javascript">
-    alert("Successfull");
+    alert("Book Successfully Issued");
+    window.location="book_request.php";
+
     </script>
-    <?php
+    //<?php
   }
   else{?>
     <script type="text/javascript">

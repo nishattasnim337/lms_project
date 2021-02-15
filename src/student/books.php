@@ -139,12 +139,13 @@ else{?>
 
     <h1 class="display-4">Books List</h1>
 
-    <?php
 
+    <?php
+    //..................................Search book usinf database..............
 
     if(isset($_POST['submit']))
     {
-    	$sql="select * from books where b_name like '%$_POST[search]%';";
+      $sql="select * from books where b_name like '%$_POST[search]%' || b_id='$_POST[search]';";
     	$query=mysqli_query($dblink,$sql);
     	if(mysqli_num_rows($query)==0)
     	{

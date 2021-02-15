@@ -23,7 +23,7 @@
      </button>
 
 <?php
-if(isset($_SESSION['login_user'])){
+if(isset($_SESSION['admin_login_user'])){
   ?>
 
        <div id="navbarNav" class="collapse navbar-collapse">
@@ -40,7 +40,7 @@ if(isset($_SESSION['login_user'])){
            <li class="nav-item dropdown ">
              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><span class="fa fa-user">
                <?php
-               echo $_SESSION['login_user'];
+               echo $_SESSION['admin_login_user'];
 
               ?></spna></a>
               <div class="dropdown-menu text-light" style="background:#000">

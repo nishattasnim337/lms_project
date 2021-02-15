@@ -68,7 +68,7 @@ body {
   <body>
 <!--...............................side nav...............................-->
 <?php
-if(isset($_SESSION['login_user'])){?>
+if(isset($_SESSION['admin_login_user'])){?>
   <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   <a href="profile.php">My Profile</a>
@@ -229,7 +229,7 @@ else{?>
     }
 
     if(isset($_POST['submit1'])){
-      if(isset($_SESSION['login_user']))
+      if(isset($_SESSION['admin_login_user']))
       {
         $sql1="SELECT * FROM `books` WHERE b_id='$_POST[b_id]';";
         $query=mysqli_query($dblink,$sql1);
@@ -267,11 +267,11 @@ else{?>
 
     	if(isset($_POST['request']))
     	{
-    		if(isset($_SESSION['login_user']))
+    		if(isset($_SESSION['admin_login_user']))
     		{
     			$b_id=$_POST["b_id"];
 
-    			$username=$_SESSION['login_user'];
+    			$username=$_SESSION['admin_login_user'];
 
 
     			$sql="insert into issue_book values( '$username','$b_id','','','');";
