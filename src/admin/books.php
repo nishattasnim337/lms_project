@@ -76,7 +76,8 @@ if(isset($_SESSION['admin_login_user'])){?>
   <a href="add_book.php">Add Book</a>
   <a href="update_book.php">Update Book</a>
   <a href="book_request.php">Book Request Info</a>
-  <a href="#">Issue Information</a>
+  <a href="issuebook_info.php">Issue Information</a>
+  <a href="expired_info.php">Expired Book Information</a>
   </div>
 
   <div id="main">

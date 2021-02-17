@@ -106,9 +106,9 @@ width:100%;
        }
        </script>
 
-       
-       <div class="container" style="min-height: 800px;">
-         <h2 class="display-5 text-center pt-5">List of Requested Books </h2>
+
+       <div class=" " style="min-height: 800px;">
+         <h2 class="display-5 text-center pt-5">Book expired Information </h2>
          <hr class="bg-light">
 
 
@@ -116,62 +116,82 @@ width:100%;
 
        if(isset($_SESSION['admin_login_user']))
        {
-         $sql="SELECT student.username,roll,books.b_id,b_name,authors,edition,status from student inner join issue_book ON student.username=issue_book.username inner join books ON issue_book.b_id=books.b_id where issue_book.approve='';";
+         //$var='<p style="color:yellow; backgroundcolor:green;">RETURNED</p>';
+         $sql="SELECT student.username,roll,books.b_id,b_name,approve,issue,returnbook from student inner join issue_book ON student.username=issue_book.username inner join books ON issue_book.b_id=books.b_id where issue_book.approve='Expired';";
 
          $query=mysqli_query($dblink,$sql);
          if(mysqli_num_rows($query)==0)
          {
            echo "<h2 class='display-5 py-5'>";
-           echo "There is no pending book request";
+           echo "There is no Expired book in the history";
            echo "</h2>";
          }
          else{
-         echo "<table class='table table-bordered  text-light'>";
+         echo "<table class='table table-bordered scroll  text-light'>";
+
            echo "<tr style='background-color:#0827AB;'>";
            echo "<th>"; echo "Student Username"; echo "</th>";
            echo "<th>"; echo "Roll"; echo "</th>";
            echo "<th>"; echo "Book Id"; echo "</th>";
            echo "<th>"; echo "Book Name"; echo "</th>";
-           echo "<th>"; echo "Authors Name"; echo "</th>";
-           echo "<th>"; echo "Edition"; echo "</th>";
-           echo "<th>"; echo "Status"; echo "</th>";
-           echo "<th>"; echo "Approve status"; echo "</th>";
-
-
-
-
+           echo "<th>"; echo "Approve Status"; echo "</th>";
+           echo "<th>"; echo "Issue Date"; echo "</th>";
+           echo "<th>"; echo "Return date"; echo "</th>";
+           //............................Book return from student..............................
+           echo "<th>"; echo "Take Book"; echo "</th>";
 
            echo "</tr>";
 
            while($row=mysqli_fetch_assoc($query))
            {
+
+             echo "<form action='expired_info.php' method='GET'>";
              echo "<tr>";
-             $_hiddenuser= $row['username'];
-             echo "<form action='approve.php' method='GET'>";
              ?>
                <td> <input type="hidden" name="hiddenuser" value="<?php echo $row['username'];?>"/> <?php echo $row['username']; ?></td>
-          <?php   //echo "<td>";echo"<input type='hidden' name='hiddenuser' value="; echo $_hiddenuser; echo ">";echo $row['username']; echo "</input>"; echo "</td>";
-
+          <?php
              //echo "<td>";echo $row['username']; echo "</td>";
              echo "<td>";echo $row['roll']; echo "</td>";
-             ?>
-               <td> <input type="hidden" name="hidden_b_id" value="<?php echo $row['b_id'];?>"/> <?php echo $row['b_id']; ?></td>
-          <?php
              //echo "<td>";echo $row['b_id']; echo "</td>";
+             ?>
+               <td> <input type="hidden" name="hidden_b_id" value="<?php echo $row['b_id'];?>"/> <?php echo $row['username']; ?></td>
+          <?php
              echo "<td>";echo $row['b_name']; echo "</td>";
-             echo "<td>";echo $row['authors']; echo "</td>";
-             echo "<td>";echo $row['edition']; echo "</td>";
-             echo "<td>";echo $row['status']; echo "</td>";
-             echo "<td>";echo "<button type='submit' class='btn btn-primary d-block '>Approve</button>"; echo "</td>";
+             $today=date("Y-m-d");
+
+
+               if(isset($_GET['b_submit']))
+               {
+                 echo "<td>";echo "<button class='font-weight-bold btn btn-success btn-block'>";echo "Return";echo "</button>"; echo "</td>";
+                 $_name=$_GET['hiddenuser'];
+                 echo $_name;
+                 echo "<br>";
+                 $_bid=$_GET['hidden_b_id'];
+                 echo $_bid;
+                 $sql="UPDATE `issue_book` SET `approve`='Return' WHERE `username`='$_name' and `b_id`='$_bid';";
+                 mysqli_query($dblink,$sql);
+               }
+               else{
+                 echo "<td>";echo "<button class='font-weight-bold btn btn-danger btn-block'>";echo $row['approve'];echo "</button>"; echo "</td>";
+
+               }
+
+             echo "<td>";echo $row['issue']; echo "</td>";
+             echo "<td>";echo $row['returnbook']; echo "</td>";
+
+             echo "<td>";echo "<button class='font-weight-bold btn btn-success btn-block' name='b_submit'><i class='fa fa-cart-plus'></i>";echo "</button>"; echo "</td>";
+
+
+             //echo "<td>";echo $row['status']; echo "</td>";
 
              echo "</tr>";
              echo "</form>";
 
 
-           }
+
            echo "</table>";
 
-
+}
 
          }
        }

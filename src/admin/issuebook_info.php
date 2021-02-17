@@ -87,7 +87,7 @@ width:100%;
        <a href="books.php">Books</a>
        <a href="add_book.php">Add Book</a>
        <a href="book_request.php">Book Request Info</a>
-       <a href="#">Issue Information</a>
+       <a href="expired_info.php">Issue Information</a>
        </div>
 
        <div id="main">
@@ -106,9 +106,9 @@ width:100%;
        }
        </script>
 
-       
-       <div class="container" style="min-height: 800px;">
-         <h2 class="display-5 text-center pt-5">List of Requested Books </h2>
+
+       <div class="" style="min-height: 800px;">
+         <h2 class="display-5 text-center pt-5">Issue Book Information </h2>
          <hr class="bg-light">
 
 
@@ -116,17 +116,18 @@ width:100%;
 
        if(isset($_SESSION['admin_login_user']))
        {
-         $sql="SELECT student.username,roll,books.b_id,b_name,authors,edition,status from student inner join issue_book ON student.username=issue_book.username inner join books ON issue_book.b_id=books.b_id where issue_book.approve='';";
+         $sql="SELECT student.username,roll,books.b_id,b_name,authors,edition,issue,returnbook from student inner join issue_book ON student.username=issue_book.username inner join books ON issue_book.b_id=books.b_id where issue_book.approve='Yes' ORDER BY issue_book.returnbook ASC;";
 
          $query=mysqli_query($dblink,$sql);
          if(mysqli_num_rows($query)==0)
          {
            echo "<h2 class='display-5 py-5'>";
-           echo "There is no pending book request";
+           echo "There is no issued book history";
            echo "</h2>";
          }
          else{
-         echo "<table class='table table-bordered  text-light'>";
+         echo "<table class='table table-bordered scroll  text-light'>";
+
            echo "<tr style='background-color:#0827AB;'>";
            echo "<th>"; echo "Student Username"; echo "</th>";
            echo "<th>"; echo "Roll"; echo "</th>";
@@ -134,41 +135,40 @@ width:100%;
            echo "<th>"; echo "Book Name"; echo "</th>";
            echo "<th>"; echo "Authors Name"; echo "</th>";
            echo "<th>"; echo "Edition"; echo "</th>";
-           echo "<th>"; echo "Status"; echo "</th>";
-           echo "<th>"; echo "Approve status"; echo "</th>";
-
-
-
-
+           echo "<th>"; echo "Issue Date"; echo "</th>";
+           echo "<th>"; echo "Return date"; echo "</th>";
 
            echo "</tr>";
-
+           $count=0;
            while($row=mysqli_fetch_assoc($query))
            {
+             $today=date("Y-m-d");
+             if($today>$row['returnbook'])
+             {
+               //$var='<p style="color:yellow; backgroundcolor:green;">RETURNED</p>';
+               $returndate=$row['returnbook'];
+               $count=$count+1;
+               $sql="UPDATE `issue_book` SET `approve`='Expired' WHERE `approve`='Yes' AND `returnbook`='$returndate' limit $count;";
+               mysqli_query($dblink,$sql);
+               echo $row['returnbook']."</br>";
+             }
              echo "<tr>";
-             $_hiddenuser= $row['username'];
-             echo "<form action='approve.php' method='GET'>";
-             ?>
-               <td> <input type="hidden" name="hiddenuser" value="<?php echo $row['username'];?>"/> <?php echo $row['username']; ?></td>
-          <?php   //echo "<td>";echo"<input type='hidden' name='hiddenuser' value="; echo $_hiddenuser; echo ">";echo $row['username']; echo "</input>"; echo "</td>";
-
-             //echo "<td>";echo $row['username']; echo "</td>";
+             echo "<td>";echo $row['username']; echo "</td>";
              echo "<td>";echo $row['roll']; echo "</td>";
-             ?>
-               <td> <input type="hidden" name="hidden_b_id" value="<?php echo $row['b_id'];?>"/> <?php echo $row['b_id']; ?></td>
-          <?php
-             //echo "<td>";echo $row['b_id']; echo "</td>";
+             echo "<td>";echo $row['b_id']; echo "</td>";
              echo "<td>";echo $row['b_name']; echo "</td>";
              echo "<td>";echo $row['authors']; echo "</td>";
              echo "<td>";echo $row['edition']; echo "</td>";
-             echo "<td>";echo $row['status']; echo "</td>";
-             echo "<td>";echo "<button type='submit' class='btn btn-primary d-block '>Approve</button>"; echo "</td>";
+             echo "<td>";echo $row['issue']; echo "</td>";
+             echo "<td>";echo $row['returnbook']; echo "</td>";
+             //echo "<td>";echo $row['status']; echo "</td>";
 
              echo "</tr>";
              echo "</form>";
 
 
            }
+
            echo "</table>";
 
 
