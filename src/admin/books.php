@@ -74,7 +74,7 @@ if(isset($_SESSION['admin_login_user'])){?>
   <a href="profile.php">My Profile</a>
   <a href="books.php">Books</a>
   <a href="add_book.php">Add Book</a>
-  <a href="update_book.php">Update Book</a>
+  <!--<a href="update_book.php">Update Book</a>-->
   <a href="book_request.php">Book Request Info</a>
   <a href="issuebook_info.php">Issue Information</a>
   <a href="expired_info.php">Expired Book Information</a>
@@ -289,9 +289,33 @@ else{?>
     		}
 
     	}?>
+
+
       </div>
     </div>
+    <?php
+if(isset($_POST['update_btn']))
+{
+  $x=$_POST['search'];
 
+  if($_POST['search']>0){
+$bookid=$_POST['search']
+  //echo $bookid;
+  ?>
+  <script type=text/javascript>
+  window.location="update_book.php?bid=<?php echo $bookid ?>";
+</script>
+  <?php
+//}
+}
+
+else{?>
+  <script type=text/javascript>
+  alert ("Please enter the bookid");
+</script>
+<?php
+}}
+?>
 
 
       <footer class="bg-dark text-light text-center">

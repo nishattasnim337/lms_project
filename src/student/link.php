@@ -3,7 +3,7 @@
 $host="localhost";
 $dbuser="root";
 $dbpass="";
-$dbname="lms";
+$dbname="libraryms";
 $dblink=mysqli_connect("$host","$dbuser","$dbpass","$dbname");
 if(!$dblink)
 {

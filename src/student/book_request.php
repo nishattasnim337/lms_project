@@ -87,9 +87,23 @@ include "link.php";
        document.getElementById("main").style.marginLeft= "0";
        }
        </script>
+
        <div class="container" style="min-height: 800px;">
+         <div class="searchbook form-inline ml-auto">
+           <form class="ml-auto py-3 " action="" method="post">
+             <div class="input-group">
+               <input type="text" name="search" placeholder="Book Id" class="form-control" value="">
+               <div class="input-group-append">
+                 <button type="submit" name="delete_btn" class="input-group-text"><span class="fa fa-trash"></span>
+                 </button>
+               </div>
+
+             </div>
+           </form>
+         </div>
 
        <?php
+
 
        if(isset($_SESSION['login_user']))
        {
@@ -108,22 +122,60 @@ include "link.php";
            echo "<th>"; echo "Approve Status"; echo "</th>";
            echo "<th>"; echo "Issue Date"; echo "</th>";
            echo "<th>"; echo "Return Date"; echo "</th>";
+           echo "<th>"; echo "Fine"; echo "</th>";
+           //echo "<th>"; echo "Delete"; echo "</th>";
+
+
+
            echo "</tr>";
 
            while($row=mysqli_fetch_assoc($query))
            {
-
+             $y=$row['returnbook'];
 
              echo "<tr>";
+             echo "<form action='book_request.php' method='GET'>";
              echo "<td>";echo $row['b_id']; echo "</td>";
              echo "<td>";echo $row['approve']; echo "</td>";
              echo "<td>";echo $row['issue']; echo "</td>";
-             echo "<td>";echo $row['returnbook']; echo "</td>";
+             $day=date("Y-m-d");
+             if(($day>$row['returnbook'])&& $row['approve']=='Expired'){
+               echo "<td class='bg-danger'>";echo $row['returnbook']; echo "</td>";
+               ?>
+               <td class="bg-info"> <input type="hidden" name="fine" value=""  />
+                 <?php
+                 if($day>$y)
+                {
+                  $return=strtotime($y);
+                   $day=date("Y-m-d");
+                   $today=strtotime($day);
+                   $difference=$today-$return;
+                   if($difference>0)
+                   {
+                    $days=floor($difference/(60*60*24));
+                    //echo $days;
+                   $x=$days*5;
+                   echo $x;}
+
+                }
+                else{
+                  echo "No Fine";
+                } ?></td>
+                <?php
+             }
+             else{
+               echo "<td>";echo $row['returnbook']; echo "</td>";
+             }
+
+
              echo "</tr>";
 
+             echo "</form>";
 
            }
+
            echo "</table>";
+
 
 
 
@@ -143,5 +195,47 @@ else{
       <div class="col">
         <p>Copyright 2021 &copy; library</p>
       </div>
+    </div>
+  </div>
+</footer>
+
+
+
    </body>
  </html>
+<?php
+if(isset($_POST['delete_btn'])){
+  $x=$_POST['search'];
+  echo $x;
+$sql="select username from issue_book where username='$_SESSION[login_user]' and approve=''and b_id='$x';";
+$query=mysqli_query($dblink,$sql);
+$row=mysqli_fetch_assoc($query);
+if($row>1 ){
+  //echo
+echo $row['username'];
+//echo "<td>";echo "<button type='submit' class='btn btn-primary d-block ' name='delete_btn'>Delete_Req</button>"; echo "</td>";
+$sql="DELETE FROM `issue_book` WHERE  username='$_SESSION[login_user]' and approve=''and b_id='$x';";
+$query=mysqli_query($dblink,$sql);
+?>
+<script type="text/javascript">
+  alert("Delete Your request successfully");
+
+</script>
+
+<?php
+}
+
+
+else{?>
+<script type="text/javascript">
+  alert("This book id is not panding, without approval");
+  window.location="books.php";
+  </script>
+
+
+<?php
+}}
+
+
+
+ ?>

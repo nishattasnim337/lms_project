@@ -230,12 +230,47 @@ else{?>
       if(isset($_SESSION['login_user']))
       {
         $sql1="SELECT * FROM `books` WHERE b_id=$_POST[b_id]";
+        //$sql2="SELECT `username` FROM `issue_book` WHERE approve='' and username='$_SESSION[login_user]';";
+
         $query=mysqli_query($dblink,$sql1);
+        //$query1=mysqli_query($dblink,$sql2);
+
         $row=mysqli_fetch_assoc($query);
+      //  $row1=mysqli_fetch_assoc($query1);
+
         $count=mysqli_num_rows($query);
+        //$count1=mysqli_num_rows($query1);
+
         if($count!=0)
         {
-        $sql="INSERT into issue_book values('$_SESSION[login_user]','$_POST[b_id]','','','')";
+        $sql2="SELECT `username` FROM `issue_book` WHERE approve=''or approve='Yes'or approve='Expired' and username='$_SESSION[login_user]';";
+        $query1=mysqli_query($dblink,$sql2);
+        $row1=mysqli_fetch_assoc($query1);
+        $count1=mysqli_num_rows($query1);
+        if($count1==0)
+        {
+          $sql="INSERT into issue_book values('$_SESSION[login_user]','$_POST[b_id]','','','')";
+          mysqli_query($dblink,$sql);
+          ?>
+          <script type="text/javascript">
+            alert("Request sent successfully");
+            window.location="book_request.php";
+          </script>
+
+          <?php
+        }
+        else{?>
+          <script type="text/javascript">
+            alert("You have already a pending Book request");
+            </script>
+
+
+        <?php
+      }
+        }
+
+
+      /*  $sql="INSERT into issue_book values('$_SESSION[login_user]','$_POST[b_id]','','','')";
         mysqli_query($dblink,$sql);
         ?>
         <script type="text/javascript">
@@ -244,7 +279,7 @@ else{?>
         </script>
 
         <?php
-      }
+      }*/
         else{?>
           <script type="text/javascript">
             alert("Books not available in library");

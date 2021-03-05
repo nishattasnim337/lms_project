@@ -38,7 +38,7 @@ include "link.php";
             <p class="pb-5 pt-3 class="font-weight-bold">
               <a href=""class="">Forgate password?</a>&nbsp; &nbsp; &nbsp;
               New in Our site?
-              <a href="registration.html" class=""> Sign Up</a>
+              <a href="registration.php" class=""> Sign Up</a>
             </p>
 
 
@@ -51,30 +51,8 @@ include "link.php";
           $sql="SELECT * from student where username='$_POST[username]'|| email='$_POST[username]' && password ='$_POST[password]'";
           $result=mysqli_query($dblink,$sql);
             $count=mysqli_num_rows($result);
-            if($count==0)
+            if($count==True)
             {
-              ?>
-              <!-- <script type="text/javascript">
-              // alert("The Username and Password doesn't match.")
-              // </script>-->
-
-
-                  <div class="alert alert-warning align-center mx-5" style="width:600px;
-                  background-color:red; color:white;">
-                  <strong>The Username and Password doesn't match.</strong>
-                  </div>
-
-
-              <?php
-
-
-            }
-            else{?><?php
-
-              //$sql="SELECT username from student where username='$_POST[username]'|| email='$_POST[username]' && password ='$_POST[password]'";
-              //$result=mysqli_query($dblink,$sql);
-              //$_SESSION['login_user']=$result;
-
               $sql="SELECT * from student where username='$_POST[username]'|| email='$_POST[username]' && password ='$_POST[password]'";
               $result=mysqli_query($dblink,$sql);
               $res=mysqli_fetch_assoc($result);
@@ -95,7 +73,19 @@ include "link.php";
 
             }
 
-          }
+
+
+
+            else{?>
+
+              <script type="text/javascript">
+            alert("The Username and Password doesn't match.")
+              </script>
+
+
+                  <?php
+
+          }}
 
           ?>
         </div>

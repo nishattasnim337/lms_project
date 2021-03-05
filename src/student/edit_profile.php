@@ -22,10 +22,7 @@ while($row=mysqli_fetch_assoc($result))
   $password=$row['password'];
   $contract=$row['contract'];
 }
-
-
-
- ?>
+  ?>
 
        <div class="container-fluid" style="min-height: 800px;">
          <h2 class="display-5 text-center pt-5">Edit Profile</h2>
@@ -56,7 +53,7 @@ while($row=mysqli_fetch_assoc($result))
                        <label class="font-weight-bold ">Username</label>
                       </div>
                         <div class="col-md-8">
-                       <input type="text" class="form-control" name="username" value="<?php echo $username; ?>">
+                       <input type="text" class="form-control" name="username" readonly value="<?php echo $username; ?>">
                      </div>
                    </div>
                    <div class="form-group row">
@@ -64,7 +61,7 @@ while($row=mysqli_fetch_assoc($result))
                       <label class="font-weight-bold ">Email</label>
                      </div>
                        <div class="col-md-8">
-                      <input type="text" class="form-control" name="email" value="<?php echo $email; ?>">
+                      <input type="text" class="form-control" readonly name="email" value="<?php echo $email; ?>">
                     </div>
                   </div>
                   <div class="form-group row">
@@ -92,14 +89,7 @@ while($row=mysqli_fetch_assoc($result))
                       <input type="password" class="form-control"  name="password2" placeholder="When you edit-Retype Password">
                     </div>
                   </div>
-                  <div class="form-group row">
-                  <div class="col-md-4 ">
-                    <label class="font-weight-bold ">Image</label>
-                  </div>
-                  <div class="col-md-8">
-                    <input type="file" class="form-control py-1"  name="p_image" placeholder="">
-                  </div>
-                </div>
+
                  <button class="btn btn-primary  my-2 px-4" type="submit" name="submit"> Save</button>
 
 
@@ -111,14 +101,14 @@ while($row=mysqli_fetch_assoc($result))
 
          </div>
       </div>
-      <!--..........................................uPDATE PROFILE DOnt work properly.........................-->
+      <!--..........................................uPDATE work properly.........................-->
 <?php
     if(isset($_POST['submit']))
     {
       $f_name=$_POST['f_name'];
       $l_name=$_POST['l_name'];
-      $username=$_POST['username'];
-      $email=$_POST['email'];
+      //$username=$_POST['username'];
+      //$email=$_POST['email'];
       $password=$_POST['password'];
       $password2=$_POST['password2'];
       $contract=$_POST['contract'];
@@ -129,22 +119,30 @@ while($row=mysqli_fetch_assoc($result))
     	while($row=mysqli_fetch_assoc($result))
     	{
 
-    		if(($row['username']===$_POST['username'])&&($row['email']===$_POST['email'])&&($_POST['password']===$_POST['password2']))
+    		if($_POST['password']===$_POST['password2'])
     		{
-          $sql="UPDATE student SET f_name='$f_name',l_name='$l_name',username='$username',email='$email',password='$password',contract='$contract' WHERE username='".$_SESSION['login_user']."';";
+          $sql="UPDATE student SET f_name='$f_name',l_name='$l_name',password='$password',contract='$contract' WHERE username='".$_SESSION['login_user']."';";
           if(mysqli_query($dblink,$sql))
           {
             ?>
           <script type="text/javascript">
           alert("Update succcessfully");
+          window.location="edit_profile.php";
           </script>
 
           <?php
           }
-        }
-
 
         }
+        else{
+          ?>
+          <script type="text/javascript">
+          alert("Give Password Carefully");
+          window.location="edit_profile.php";
+          </script>
+          <?php
+        }
+      }
       }
 
 
@@ -157,5 +155,8 @@ while($row=mysqli_fetch_assoc($result))
       <div class="col">
         <p>Copyright 2021 &copy; library</p>
       </div>
+    </div>
+  </div>
+</footer>
    </body>
  </html>

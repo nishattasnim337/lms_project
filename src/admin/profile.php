@@ -40,29 +40,105 @@ include "link.php";
         <div class="card">
           <div class="card-body">
 
-            <button class="btn btn-primary mt-5 mr-4"
-            style="
-            position: absolute;
-            bottom: 20;
-            right: 0;"
+            <div class="row">
+              <div class="col-md-4">
+                <?php
+                $sql="select pic from admin where username='$_SESSION[admin_login_user]';";
+                 $result=mysqli_query($dblink,$sql);
+                  $row=mysqli_fetch_assoc($result);
+                 $z= $row['pic'];
 
-            ><a href="edit_profile.php" class="text-light"style="text-decoration: none">Edit Profile</a></button>
-<!--.........................php added................-->
-            <?php echo "<img style='
-            margin-top: -160px;'
-             src='../img/avater.png' alt='Nmae1' class='img-fluid  lg-w-25 sm-w-20  rounded-circle '>"?>
+                if(isset($_POST['submit'])){
+
+                echo "<img style='
+                margin-top: -160px;
+                width:270px;
+                height:220px;
+                background-size:cover;
+                background-position:center;'
+                 src='../apimage/$z' alt='Nmae1' class='img-fluid img-responsive rounded-circle '>";
+               }
+                 elseif(isset($_POST['remove_img'])){
+                   echo "<img style='
+                   margin-top: -160px;
+                   width:270px;
+                   height:220px;
+                   background-size:cover;
+                   background-position:center;
+                   '
+                    src='../apimage/avater.png' alt='Nmae2' class='img-fluid img-responsive rounded-circle '>";
+                 }
+                 else{
+                   echo "<img style='
+                   margin-top: -160px;
+                   width:270px;
+                   height:220px;
+                   background-size:cover;
+                   background-position:center;'
+                    src='../apimage/$z' alt='Nmae1' class='img-fluid img-responsive rounded-circle '>";
+
+                 }
+                 ?>
+              </div>
+              <div class="col-md-6"></div>
+              <div class="col-md-2">
+                <button class="btn btn-primary mt-5 mr-4"
+                style="
+                position: absolute;
+                bottom: 20;
+                right: 0;"
+
+                ><a href="edit_admin-profile.php" class="text-light my-4"style="text-decoration: none">Edit Profile</a></button>
+              </div>
+
+            </div>
+
             <?php
+            //..................................Php Added..................
             $sql="select * from admin where username='$_SESSION[admin_login_user]';";
             $result=mysqli_query($dblink,$sql);
 
             $row=mysqli_fetch_assoc($result);
             ?>
             <div>
-              <form action="" method="POST">
-              <span> <button class="btn btn-inline-block" ><i class="fa fa-camera  ml-4 d-inline-block " style="font-size:20px;""></i></button></span>
-              <span> <button type="submit" name="pass_btn" class="btn btn-inline-block"><i class="fa fa-key  ml-2 d-inline-block" style="font-size:20px;"></i></button></span>
-              </form>
-            </div>
+              <div>
+              <span> <button type="button" class="btn btn-inline-block" name="camera" data-toggle="modal" data-target="#profile_img"><i class="fa fa-camera  ml-4 d-inline-block " style="font-size:20px;""></i></button></span>
+
+                <div class="modal fade" id="profile_img" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="profile_img">Select Your Profile Picture</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span >&times</span></button>
+                        </div>
+                        <div class="container">
+                        <div class="modal-body">
+                          <form enctype="multipart/form-data" action="" method="POST" class="mt-5">
+
+                             <div class="form-group row">
+                             <div class="col-md-4 ">
+                               <label class="font-weight-bold ">Choose profile picture</label>
+                             </div>
+                             <div class="col-md-8">
+
+                               <input type="file" class="form-control py-1"  name="p_image" placeholder="">
+
+                             </div>
+                           </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button class="btn btn-info  my-2 px-4" type="submit1" name="remove_img"> Remove Profile</button>
+                          <button class="btn btn-primary  my-2 px-4" type="submit" name="submit"> Upload</button>
+
+                         </form>
+
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
             <h3 class="text-dark display-5 pl-4"><?php  echo $_SESSION['admin_login_user'];?></h3>
 
             <ul class="list-group">
@@ -86,17 +162,56 @@ include "link.php";
                   <span class="d-inline-block "><h5 class="display-5 ml-5"><?php echo $row["contract"];?></h5></span>
                 </li>
                 <?php
-                if(isset($_POST['pass_btn']))
-                {?>
-                  <li class="list-group-item inline-block input-group ">
-                    <span> <i class="fa fa-key mr-5 d-inline-block " style=""><?php echo "&nbsp Password";?></i></span>
-                    <span class="d-inline-block "><h5 class="display-5 ml-5"><?php echo $row["password"];?></h5></span>
-                  </li>
+               //......................profile image uploaded successfully..........
+               if(isset($_POST['submit'])){
 
-                  <?php
-                }
+                 $file=$_FILES['p_image'];
+                 $file_name=$file['name'];
+                 $file_tmp_name=$file['tmp_name'];
+                 $file_upload="../apimage/$_SESSION[admin_login_user].jpg";
+                 $y=move_uploaded_file($file_tmp_name,$file_upload);
+                 $x=$_SESSION['admin_login_user'];
+                 $sql="SELECT pic from student WHERE username=$x ";
+                 $result=mysqli_query($dblink,$sql);
+                 if($y==True){
 
-                 ?>
+                     $sql="UPDATE `admin` SET `pic`='$x.jpg' WHERE username='$x';";
+                     if(mysqli_query($dblink,$sql))
+                     {
+                       ?>
+                     <script type="text/javascript">
+                     alert("Image Upload succcessfully");
+                     </script>
+
+                     <?php
+                   }}
+
+           else{
+             //echo "<img style='
+            //margin-top: -160px;'
+             //src='../spimage/avater.png' alt='Name' class='img-fluid img-responsive img-rounded w-70 mb-3  '>";
+           }
+
+         }
+               //...............Image donot remove............
+             /* elseif(isset($_POST[remove_img]))
+               {
+                  echo "<img style='
+                 margin-top: -160px;'
+                  src='../spimage/avater.png' alt='Name' class='img-fluid  lg-w-25 sm-w-20  '>";
+               }
+               else{
+
+
+               }*/
+
+               ?>
+
+                 <li class="list-group-item inline-block input-group ">
+                   <span> <i class="fa fa-key mr-5 d-inline-block " style=""><?php echo "&nbsp Password";?></i></span>
+                   <span class="d-inline-block "><h5 class="display-5 ml-5"><?php echo $row["password"];?></h5></span>
+                 </li>
+
 
               </ul>
 

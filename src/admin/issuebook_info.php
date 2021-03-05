@@ -87,7 +87,8 @@ width:100%;
        <a href="books.php">Books</a>
        <a href="add_book.php">Add Book</a>
        <a href="book_request.php">Book Request Info</a>
-       <a href="expired_info.php">Issue Information</a>
+       <a href="issuebook_info.php">Issue Information</a>
+       <a href="expired_info.php">Expired Book Information</a>
        </div>
 
        <div id="main">
@@ -108,15 +109,16 @@ width:100%;
 
 
        <div class="" style="min-height: 800px;">
-         <h2 class="display-5 text-center pt-5">Issue Book Information </h2>
+         <h2 class="display-5 text-center pt-5"> Panding Issue Book Information </h2>
          <hr class="bg-light">
+
 
 
        <?php
 
        if(isset($_SESSION['admin_login_user']))
        {
-         $sql="SELECT student.username,roll,books.b_id,b_name,authors,edition,issue,returnbook from student inner join issue_book ON student.username=issue_book.username inner join books ON issue_book.b_id=books.b_id where issue_book.approve='Yes' ORDER BY issue_book.returnbook ASC;";
+         $sql="SELECT student.username,roll,books.b_id,b_name,approve,authors,edition,issue,returnbook from student inner join issue_book ON student.username=issue_book.username inner join books ON issue_book.b_id=books.b_id where issue_book.approve='Yes' ORDER BY issue_book.returnbook ASC;";
 
          $query=mysqli_query($dblink,$sql);
          if(mysqli_num_rows($query)==0)
@@ -129,16 +131,19 @@ width:100%;
          echo "<table class='table table-bordered scroll  text-light'>";
 
            echo "<tr style='background-color:#0827AB;'>";
+           echo "<th>"; echo "Book Id"; echo "</th>";
            echo "<th>"; echo "Student Username"; echo "</th>";
            echo "<th>"; echo "Roll"; echo "</th>";
-           echo "<th>"; echo "Book Id"; echo "</th>";
            echo "<th>"; echo "Book Name"; echo "</th>";
            echo "<th>"; echo "Authors Name"; echo "</th>";
            echo "<th>"; echo "Edition"; echo "</th>";
+           //echo "<th>"; echo "Approve Status"; echo "</th>";
            echo "<th>"; echo "Issue Date"; echo "</th>";
            echo "<th>"; echo "Return date"; echo "</th>";
+           echo "<th>"; echo "Take Book"; echo "</th>";
 
            echo "</tr>";
+
            $count=0;
            while($row=mysqli_fetch_assoc($query))
            {
@@ -150,24 +155,44 @@ width:100%;
                $count=$count+1;
                $sql="UPDATE `issue_book` SET `approve`='Expired' WHERE `approve`='Yes' AND `returnbook`='$returndate' limit $count;";
                mysqli_query($dblink,$sql);
-               echo $row['returnbook']."</br>";
+
+               //echo $row['returnbook']."</br>";
+             }
+
+             else{
+
              }
              echo "<tr>";
-             echo "<td>";echo $row['username']; echo "</td>";
-             echo "<td>";echo $row['roll']; echo "</td>";
-             echo "<td>";echo $row['b_id']; echo "</td>";
-             echo "<td>";echo $row['b_name']; echo "</td>";
+             echo "<form action='fine_collection.php' method='GET'>";?>
+             <td> <input type="hidden" name="hidden_b_id" value="<?php echo $row['b_id'];?>"/> <?php echo $row['b_id']; ?></td>
+
+            <td> <input type="hidden" name="hiddenuser" value="<?php echo $row['username'];?>"/> <?php echo $row['username']; ?></td>
+
+            <td> <input type="hidden" name="hidden_roll" value="<?php echo $row['roll'];?>"/> <?php echo $row['roll']; ?></td>
+            <?php echo "<td>";echo $row['b_name']; echo "</td>";
              echo "<td>";echo $row['authors']; echo "</td>";
              echo "<td>";echo $row['edition']; echo "</td>";
+             //echo "<td>";echo $row['approve']; echo "</td>";
              echo "<td>";echo $row['issue']; echo "</td>";
-             echo "<td>";echo $row['returnbook']; echo "</td>";
-             //echo "<td>";echo $row['status']; echo "</td>";
+             ?>
+             <td> <input type="hidden" name="hidden_returndate" value="<?php echo $row['returnbook'];?>"/> <?php echo $row['returnbook']; ?></td>
+          <?php
+             //echo "<td>";echo $row['returnbook']; echo "</td>";
+             if($today>$row['returnbook']){
+             echo "<td>";echo "<button class='font-weight-bold btn btn-danger btn-block' name='b_submit1'><i class='fa fa-cart-plus'></i>";echo "</button>"; echo "</td>";
+           }
+           else{
+             echo "<td>";echo "<button class='font-weight-bold btn btn-success btn-block' name='b_submit2'><i class='fa fa-cart-plus'></i>";echo "</button>"; echo "</td>";
+
+           }
 
              echo "</tr>";
              echo "</form>";
 
 
            }
+           echo "Expired Book = ".$count;
+           echo "<hr>";
 
            echo "</table>";
 
@@ -196,3 +221,43 @@ else{
       </div>
    </body>
  </html>
+
+ <?php
+ $_name=$_GET['hiddenuser'];
+ $_bid=$_GET['hidden_b_id'];
+ $returndate=$_GET['hidden_returndate'];
+ $roll=$_GET['hidden_roll'];
+$returndate=$row['returnbook'];
+echo $returndate;
+ if(isset($_GET['b_submit2']))
+ {
+
+   $sql="UPDATE `issue_book` SET `approve`='Return' WHERE `username`='$_name' and `b_id`='$_bid';";
+   mysqli_query($dblink,$sql);
+ ?>
+
+   <script type="text/javascript">
+   alert("Return Book successfully");
+
+   </script>
+   <?php
+ }
+ //...................problem (always show else mgs).......
+elseif (isset($_GET['b_submit1'])) {?>
+  <script type="text/javascript">
+window.location="fine_collection.php?hidden_returndate=<?php echo $row['returnbook'];?>";
+  </script>
+
+  <?php
+}
+
+  /* else{
+     ?>
+
+       <script type="text/javascript">
+       alert("There is some problem");
+
+       </script>
+       <?php
+ }*/
+  ?>

@@ -106,7 +106,7 @@ width:100%;
        }
        </script>
 
-       
+
        <div class="container" style="min-height: 800px;">
          <h2 class="display-5 text-center pt-5">List of Requested Books </h2>
          <hr class="bg-light">
@@ -136,11 +136,6 @@ width:100%;
            echo "<th>"; echo "Edition"; echo "</th>";
            echo "<th>"; echo "Status"; echo "</th>";
            echo "<th>"; echo "Approve status"; echo "</th>";
-
-
-
-
-
            echo "</tr>";
 
            while($row=mysqli_fetch_assoc($query))
@@ -194,5 +189,9 @@ else{
       <div class="col">
         <p>Copyright 2021 &copy; library</p>
       </div>
+    </div>
+  </div>
+</footer>
+
    </body>
  </html>

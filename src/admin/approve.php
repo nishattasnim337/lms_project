@@ -76,7 +76,8 @@ width:100%;
        <a href="books.php">Books</a>
        <a href="add_book.php">Add Book</a>
        <a href="book_request.php">Book Request Info</a>
-       <a href="#">Issue Information</a>
+       <a href="issuebook_info.php">Issue Information</a>
+       <a href="expired_info.php">Expired Book Information</a>
        </div>
 
        <div id="main">
