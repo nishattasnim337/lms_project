@@ -46,9 +46,25 @@ include "link.php";
                 $sql="select pic from admin where username='$_SESSION[admin_login_user]';";
                  $result=mysqli_query($dblink,$sql);
                   $row=mysqli_fetch_assoc($result);
-                 $z= $row['pic'];
+                  $z= $row['pic'];
+                  $count=0;
 
-                if(isset($_POST['submit'])){
+               if($z=='pic.jpg')
+               {
+
+                 echo "<img style='
+                 margin-top: -160px;
+                 width:270px;
+                 height:220px;
+                 background-size:cover;
+                 background-position:center;
+                 '
+                  src='../apimage/avater.png' alt='profile picture' class='img-fluid img-responsive rounded-circle '>";
+                  $count=$count+1;
+               }
+
+
+                elseif(isset($_POST['submit'])){
 
                 echo "<img style='
                 margin-top: -160px;
@@ -56,7 +72,7 @@ include "link.php";
                 height:220px;
                 background-size:cover;
                 background-position:center;'
-                 src='../apimage/$z' alt='Nmae1' class='img-fluid img-responsive rounded-circle '>";
+                 src='../apimage/$z' alt='profile_pic' class='img-fluid img-responsive rounded-circle '>";
                }
                  elseif(isset($_POST['remove_img'])){
                    echo "<img style='
@@ -66,7 +82,9 @@ include "link.php";
                    background-size:cover;
                    background-position:center;
                    '
-                    src='../apimage/avater.png' alt='Nmae2' class='img-fluid img-responsive rounded-circle '>";
+                    src='../apimage/avater.png' alt='profile_pic' class='img-fluid img-responsive rounded-circle '>";
+                    $sql2="UPDATE `admin` SET `pic`='pic.jpg' WHERE username='$_SESSION[admin_login_user]';";
+                    $result2=mysqli_query($dblink,$sql2);
                  }
                  else{
                    echo "<img style='
@@ -75,8 +93,7 @@ include "link.php";
                    height:220px;
                    background-size:cover;
                    background-position:center;'
-                    src='../apimage/$z' alt='Nmae1' class='img-fluid img-responsive rounded-circle '>";
-
+                    src='../apimage/$z' alt='' class='img-fluid img-responsive rounded-circle '>";
                  }
                  ?>
               </div>

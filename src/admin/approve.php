@@ -103,10 +103,10 @@ width:100%;
              <div class=" col-md-3 col-sm-6 text-center">
                <form action="" method="POST" class="mt-5">
 
-                 <select  class="form-control" style="text-align:center;"name="approve" required="">
+                 <select  class="form-control" style="text-align:center;" name="approve" required="">
                  <option value="session">Approve Status</option>
                  <option value="Yes">Yes</option>
-                 <option value="No">NO</option>
+                 <option value="No">No</option>
                  </select><br>
                  <input type="date" name="issue" class="form-control" required=""><br>
                  <input type="date" name="returnbook" class="form-control" required=""><br>
@@ -131,6 +131,8 @@ echo $_name;
 echo "<br>";
 $_bid=$_GET['hidden_b_id'];
 echo $_bid;
+//.....................Panding books status.........
+
  ?>
 
 <footer class="bg-dark text-light text-center">
@@ -145,6 +147,10 @@ echo $_bid;
 
 <!--..........................................When confirm book.................................-->
 <?php
+$sql2="SELECT * FROM `books` WHERE b_id='$_bid';";
+$run2=mysqli_query($dblink, $sql2);
+$row2=mysqli_fetch_assoc($run2);
+$present_book= $row2['present_quantity'];
 if(isset($_POST['confirm_book']))
 {
   $approve=$_POST["approve"];
@@ -153,19 +159,31 @@ if(isset($_POST['confirm_book']))
   $return=strtotime($return_date);
   $issue=strtotime($issue_date);
   $difference=$return - $issue;
-   $days=floor($difference/(60*60*24));
+  $days=floor($difference/(60*60*24));
 //............................problem Solved and Book issue successfully.................................
-  if($days<=5)
+
+  if(($days<=5)and ($present_book>0))
   {
-    $sql="UPDATE issue_book SET approve='$approve',issue='$issue_date',returnbook='$return_date' WHERE username='$_name' AND b_id='$_bid';";
+    $present_book=$present_book-1;
+    $sql="UPDATE issue_book SET approve='$approve',issue='$issue_date',returnbook='$return_date' WHERE username='$_name' AND b_id='$_bid' AND approve='';";
     $run=mysqli_query($dblink, $sql);
+    $sql3="UPDATE `books` SET `present_quantity`='$present_book' WHERE b_id='$_bid';";
+    $run3=mysqli_query($dblink,$sql3);
+
     ?>
     <script type="text/javascript">
     alert("Book Successfully Issued");
     window.location="book_request.php";
-
     </script>
-    //<?php
+    <?php
+    if($present_book==0)
+    {
+      $sql4="UPDATE `books` SET status='Panding All books' WHERE b_id='$_bid';";
+      $run4=mysqli_query($dblink,$sql4);
+    }
+    else{
+
+    }
   }
   else{?>
     <script type="text/javascript">

@@ -155,7 +155,6 @@ width:100%;
                $count=$count+1;
                $sql="UPDATE `issue_book` SET `approve`='Expired' WHERE `approve`='Yes' AND `returnbook`='$returndate' limit $count;";
                mysqli_query($dblink,$sql);
-
                //echo $row['returnbook']."</br>";
              }
 
@@ -163,7 +162,7 @@ width:100%;
 
              }
              echo "<tr>";
-             echo "<form action='fine_collection.php' method='GET'>";?>
+             echo "<form action='' method='POST'>";?>
              <td> <input type="hidden" name="hidden_b_id" value="<?php echo $row['b_id'];?>"/> <?php echo $row['b_id']; ?></td>
 
             <td> <input type="hidden" name="hiddenuser" value="<?php echo $row['username'];?>"/> <?php echo $row['username']; ?></td>
@@ -188,7 +187,48 @@ width:100%;
 
              echo "</tr>";
              echo "</form>";
+//
+ $_name=$row['username'];
+ $_bid=$row['b_id'];
+ //$returndate=$_GET['returndate'];
+ $roll=$row['roll'];
+$returndate=$row['returnbook'];
+//echo $returndate;
+$sql2="SELECT * FROM `books` WHERE b_id='$_bid';";
+$run2=mysqli_query($dblink, $sql2);
+$row2=mysqli_fetch_assoc($run2);
+$present_book= $row2['present_quantity'];
+ if(isset($_POST['b_submit2']))
+ {
+   $present_book=$present_book+1;
+   $sql="UPDATE `issue_book` SET `approve`='Return' WHERE `username`='$_name' and `b_id`='$_bid';";
+   mysqli_query($dblink,$sql);
 
+ ?>
+
+   <script type="text/javascript">
+   alert("Return Book successfully");
+
+   </script>
+   <?php
+   if($present_book>0)
+   {
+     $sql4="UPDATE `books` SET `status`='Available',`present_quantity`='$present_book' WHERE b_id='$_bid';";
+     $run4=mysqli_query($dblink,$sql4);
+   }
+   else{}
+ }
+
+elseif (isset($_POST['b_submit1'])) {
+  header("Location :fine_collection.php");
+  /*<script type="text/javascript">
+window.location="fine_collection.php?hidden_returndate=<?php echo $returndate;?>";
+  </script>*/
+
+
+}
+
+   else{}
 
            }
            echo "Expired Book = ".$count;
@@ -221,43 +261,3 @@ else{
       </div>
    </body>
  </html>
-
- <?php
- $_name=$_GET['hiddenuser'];
- $_bid=$_GET['hidden_b_id'];
- $returndate=$_GET['hidden_returndate'];
- $roll=$_GET['hidden_roll'];
-$returndate=$row['returnbook'];
-echo $returndate;
- if(isset($_GET['b_submit2']))
- {
-
-   $sql="UPDATE `issue_book` SET `approve`='Return' WHERE `username`='$_name' and `b_id`='$_bid';";
-   mysqli_query($dblink,$sql);
- ?>
-
-   <script type="text/javascript">
-   alert("Return Book successfully");
-
-   </script>
-   <?php
- }
- //...................problem (always show else mgs).......
-elseif (isset($_GET['b_submit1'])) {?>
-  <script type="text/javascript">
-window.location="fine_collection.php?hidden_returndate=<?php echo $row['returnbook'];?>";
-  </script>
-
-  <?php
-}
-
-  /* else{
-     ?>
-
-       <script type="text/javascript">
-       alert("There is some problem");
-
-       </script>
-       <?php
- }*/
-  ?>

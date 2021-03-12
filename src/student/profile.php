@@ -50,9 +50,9 @@ include "link.php";
                $sql="select pic from student where username='$_SESSION[login_user]';";
                 $result=mysqli_query($dblink,$sql);
                  $row=mysqli_fetch_assoc($result);
-                $z= $row['pic'];
-            /*$count;
-              if($count==0)
+                 $z= $row['pic'];
+                   $count=0;
+                 if($z=='pic.jpg')
               {
                 echo "<img style='
                 margin-top: -160px;
@@ -61,25 +61,18 @@ include "link.php";
                 background-size:cover;
                 background-position:center;
                 '
-                 src='../spimage/avater.png' alt='Nmae2' class='img-fluid img-responsive rounded-circle '>";
-
+                 src='../spimage/avater.png' alt='Profile_pic' class='img-fluid img-responsive rounded-circle '>";
+                   $count=$count+1;
               }
-              else{
-                if(isset($_POST['submit']))
-                {
-                  $count=1;
-                }
-              }*/
 
-
-              if(isset($_POST['submit'])){
+              elseif(isset($_POST['submit'])){
               echo "<img style='
               margin-top: -160px;
               width:270px;
               height:220px;
               background-size:cover;
               background-position:center;'
-               src='../spimage/$z' alt='Nmae1' class='img-fluid img-responsive rounded-circle '>";
+               src='../spimage/$z' alt='Profile_pic' class='img-fluid img-responsive rounded-circle '>";
              }
                elseif(isset($_POST['remove_img'])){
                  echo "<img style='
@@ -89,7 +82,9 @@ include "link.php";
                  background-size:cover;
                  background-position:center;
                  '
-                  src='../spimage/avater.png' alt='Nmae2' class='img-fluid img-responsive rounded-circle '>";
+                  src='../spimage/avater.png' alt='Profile_pic' class='img-fluid img-responsive rounded-circle '>";
+                  $sql2="UPDATE `student` SET `pic`='pic.jpg' WHERE username='$_SESSION[login_user]';";
+                  $result2=mysqli_query($dblink,$sql2);
                }
                else{
                  echo "<img style='
@@ -98,9 +93,10 @@ include "link.php";
                  height:220px;
                  background-size:cover;
                  background-position:center;'
-                  src='../spimage/$z' alt='Nmae1' class='img-fluid img-responsive rounded-circle '>";
-
+                  src='../spimage/$z' alt='Profile_pic' class='img-fluid img-responsive rounded-circle '>";
                }
+
+
                  ?>
               </div>
               <div class="col-md-6"></div>

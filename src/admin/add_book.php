@@ -2,6 +2,11 @@
 include "navbar.php";
 include "link.php";
 
+$sql="SELECT MAX(b_id ) as max FROM `books`" ;
+//$query=mysqli_query($dblink,$sql);
+$rowSQL = mysqli_query($dblink,$sql );
+$row = mysqli_fetch_array( $rowSQL );
+$largestNumber = $row['max'];
  ?>
  <!DOCTYPE html>
  <html lang="en" dir="ltr">
@@ -20,15 +25,15 @@ include "link.php";
               margin:0 auto;
               font-size: 15px;
              ">
-               <h1 style="text-align:center;font-size:35px;padding-top:15px;"><b>ADD A NEW BOOK</b></h1><br>
+        <h1 style="text-align:center;font-size:35px;padding-top:15px;"><b>ADD A NEW BOOK</b></h1><br>
 				<div class="">
 				<form class="book" action="" method="POST">
-				<input class="form-control" type="text" name="b_id" placeholder="Book Id" required=""/><br>
-					<input class="form-control" type="text" name="b_name" placeholder="Book Name" required=""/><br>
-					<input class="form-control" type="text" name="authors" placeholder="Authors" required=""/><br>
-
-
-					<select  class="form-control" name="edition" ">
+        <input class="form-control font-weight-bold" type="text" placeholder="Last Accession Number of Book: <?php echo $largestNumber ?>" readonly/><br>
+        <input class="form-control" type="date" name="accession_date" placeholder="Date of Accession" required=""/><br>
+        <input class="form-control" type="text" name="b_id" placeholder="Accession No" required=""/><br>
+					<input class="form-control" type="text" name="b_name" placeholder="Title of Book" required=""/><br>
+					<input class="form-control" type="text" name="authors" placeholder="Name of Author" required=""/><br>
+		      <select  class="form-control" name="edition" ">
 					<selectstyle="text-align:center;" class="form-control" name="edition" ">
 					<option value="session">Select Book Edition</optiion>
 					<option value="1st">1st</option>
@@ -44,8 +49,14 @@ include "link.php";
 					<option value="11th">11th</option>
 					<option value="12th">12th</option>
 					</select><br>
+          <input class="form-control" type="text" name="volume_part" placeholder="Volume Part of Book" /><br>
 					<input class="form-control" type="text" name="status" placeholder="Book Status" required=""/><br>
 					<input class="form-control" type="text" name="quantity" placeholder="Quantity of Book" required=""/><br>
+          <input class="form-control" type="text" name="place_of_publication" placeholder="Place of Publication" required=""/><br>
+          <input class="form-control" type="text" name="name_of_publisher" placeholder="Name of Publisher" required=""/><br>
+          <input class="form-control" type="text" name="year_of_publisher" placeholder="Year of Publication" required=""/><br>
+          <input class="form-control" type="text" name="page" placeholder="Total Page" required=""/><br>
+          <input class="form-control" type="text" name="price" placeholder="Book Price" required=""/><br>
 					<select  class="form-control" name="department">
 					<option value="session"> Select Department</optiion>
 					<option value="CSTE">CSTE</option>

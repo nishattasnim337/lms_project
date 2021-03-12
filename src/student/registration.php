@@ -17,39 +17,6 @@ include "navbar.php";
     <link rel="shortcut icon" href="img/icon1.png">
 </head>
 <body>
- <!--Navigation
- <nav class="navbar navbar-dark navbar-expand-md">
-   <div class="container-fluid">
-     <a href="index.html"  class="navbar-brand display-1 font-weight-bold"><img src="img/icon1.png" alt="icon"> Library Management System</a>
-     <button class="navbar-toggler navbar-toggler-right" data-toggle="collapse" data-target="#navbarNav" >
-       <span class="navbar-toggler-icon"></span>
-     </button>
-     <div id="navbarNav" class="collapse navbar-collapse">
-       <ul class="navbar-nav ml-auto">
-         <li class="nav-item">
-           <a href="index.html" class="nav-link">Home</a>
-         </li>
-         <li class="nav-item">
-           <a href="books.html" class="nav-link">Books</a>
-         </li>
-         <li class="nav-item">
-           <a href="student_login.html" class="nav-link ">Student_Login</a>
-         </li>
-         <li class="nav-item">
-           <a href="registration.html" class="nav-link active">Registration</a>
-         </li>
-         <li class="nav-item">
-           <a href="feedback.html" class="nav-link">Feedback</a>
-         </li>
-
-       </ul>
-     </div>
-   </div>
- </nav>
-
--->
-
-
 
 <!--Index home section-->
 
@@ -132,53 +99,58 @@ require_once("link.php");
 
 if(isset($_POST["submit"]))
 {
-	$count=0;
-	$sql="SELECT username from student";
+  global $count;
+  $sql="SELECT username from student";
 	$result=mysqli_query($dblink,$sql);
-	while($row=mysqli_fetch_assoc($result))
-	{
+  while($row=mysqli_fetch_assoc($result))
+  {
 
-		if($row['username']==$_POST['username'])
-		{
-			$count=$count+1;
-		}
-	}
+    if($row['username']==$_POST['username'])
+    {
+      $count=1;
+    }
+    else{
+      $count=0;
+    }
+  }
+ if(filter_var($_POST["email"],FILTER_VALIDATE_EMAIL)&& $count==0){
+    if($_POST["password"]==$_POST["password2"])
+    {
+      //$count=0;
+      $email=$_POST['email'];
+      $pass=$_POST["password"];
+      $pass2=$_POST["password2"];
+      $f_name=$_POST["f_name"];
+      $l_name=$_POST["l_name"];
+      $dept=$_POST["dept_name"];
+      $year=$_POST["year"];
+      $roll=$_POST["roll"];
+      $username=$_POST["username"];
 
-	if($count==0)
-	{
-$f_name=$_POST["f_name"];
-$l_name=$_POST["l_name"];
-$dept=$_POST["dept_name"];
-$year=$_POST["year"];
-$roll=$_POST["roll"];
-$username=$_POST["username"];
-$email=$_POST["email"];
-$pass=$_POST["password"];
-$pass2=$_POST["password2"];
+                    $insert_query="insert into student(f_name,l_name,department,session_year,roll,username,email,password,pic) values
+                      ('$f_name','$l_name','$dept','$year','$roll','$username','$email','$pass','pic.jpg')";
+                    $run_query=mysqli_query($dblink,$insert_query);
+                    ?>
+                    <script type="text/javascript">
+                    alert("Registration successful");
+                    </script>
+   <?php
+ }
+    else{
+      echo "Password and confirm password write correctly";
+    }}
+    else{
+      echo "your email write , right formate";
+    }
 
+    if($count==1)
+    {
+      ?>
+    <script type="text/javascript">
+    alert("The username already exit");
+    </script>
 
-
-              $insert_query="insert into student(f_name,l_name,department,session_year,roll,username,email,password,pic) values
-              	('$f_name','$l_name','$dept','$year','$roll','$username','$email','$pass','pic.jpg')";
-              $run_query=mysqli_query($dblink,$insert_query);
-              ?>
-              <script type="text/javascript">
-              alert("Registration successful");
-              </script>
-
-
-<?php
-
-}
-
-
-else {
-	?>
-<script type="text/javascript">
-alert("The username already exit");
-</script>
-
-<?php
-}
-}
-?>
+    <?php
+    }
+    }
+    ?>

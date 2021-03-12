@@ -201,9 +201,16 @@ width:100%;
  //echo $x;
  //echo $_POST['fine_receive'];
  //..................................Issue Book update Successfully....................
+
+ $sql3="SELECT * FROM `books` WHERE b_id='$_bid';";
+ $run3=mysqli_query($dblink, $sql3);
+ $row3=mysqli_fetch_assoc($run3);
+ $present_book= $row3['present_quantity'];
+ echo $present_book;
  if(isset($_POST['paid']))
  {
    if($_POST['fine_receive']==$x){
+    $present_book=$present_book+1;
    $sql="UPDATE `issue_book` SET `approve`='Return' WHERE `username`='$_name' and `b_id`='$_bid';";
    mysqli_query($dblink,$sql);
    $sql2="INSERT INTO `fine_collection`(`b_id`, `username`, `roll`,`return_date`, `days`, `fine`) VALUES ('$_bid','$_name','$roll','$day','$days','$x')";
@@ -215,6 +222,14 @@ width:100%;
    window.location="expired_info.php";
    </script>
    <?php
+   if($present_book>0)
+   {
+     $sql4="UPDATE `books` SET `status`='Available',`present_quantity`='$present_book' WHERE b_id='$_bid';";
+     $run4=mysqli_query($dblink,$sql4);
+   }
+   else{
+
+   }
 }
    else{
      ?>

@@ -164,7 +164,7 @@ width:100%;
              echo "<td>";echo $row['b_name']; echo "</td>";
              $today=date("Y-m-d");
 
-              echo "<td class='font-weight-bold text-danger '>";echo $row['approve']; echo "</td>";
+              echo "<td class='font-weight-bold text-danger'>";echo $row['approve']; echo "</td>";
 
              echo "<td>";echo $row['issue']; echo "</td>";
              ?>
@@ -204,3 +204,7 @@ width:100%;
     </footer>
    </body>
  </html>
+ <?php
+
+
+  ?>

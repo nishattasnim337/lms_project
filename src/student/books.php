@@ -237,7 +237,9 @@ else{?>
 
         $row=mysqli_fetch_assoc($query);
       //  $row1=mysqli_fetch_assoc($query1);
-
+      $x= $row['present_quantity'];
+if($x>0)
+{
         $count=mysqli_num_rows($query);
         //$count1=mysqli_num_rows($query1);
 
@@ -266,21 +268,8 @@ else{?>
 
 
         <?php
-      }
-        }
-
-
-      /*  $sql="INSERT into issue_book values('$_SESSION[login_user]','$_POST[b_id]','','','')";
-        mysqli_query($dblink,$sql);
-        ?>
-        <script type="text/javascript">
-          alert("Request sent successfully");
-          window.location="book_request.php";
-        </script>
-
-        <?php
-      }*/
-        else{?>
+      }}
+      else{?>
           <script type="text/javascript">
             alert("Books not available in library");
             </script>
@@ -288,7 +277,18 @@ else{?>
 
         <?php
       }
-      }
+
+    }
+    else{
+      ?>
+        <script type="text/javascript">
+          alert("Out of stock");
+          </script>
+
+
+      <?php
+
+    }}
 
 
     else{?>
@@ -296,6 +296,8 @@ else{?>
         alert("Please Ensure your Login then send request for book");
       </script>
   <?php  }}
+
+
 
     	if(isset($_POST['request']))
     	{
